@@ -1,0 +1,902 @@
+/* ============ 全局重置：消除滚动条的前提 ============ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --wm-primary: #10A37F;
+    --wm-primary-hover: #0E8F70;
+    --wm-primary-light: #D1FAE5;
+    --wm-primary-lighter: #ECFDF5;
+    --wm-blue-light: #DBEAFE;
+    --wm-bg-left: #F6FBF8;
+    --wm-bg-right: #FFFFFF;
+    --wm-text-primary: #111827;
+    --wm-text-secondary: #6B7280;
+    --wm-text-tertiary: #9CA3AF;
+    --wm-border: #E5E7EB;
+    --wm-border-focus: #10A37F;
+    --wm-error: #DC2626;
+    --wm-error-bg: #FEF2F2;
+    --wm-card-shadow: 0 20px 60px -15px rgba(16, 163, 127, 0.12), 0 8px 24px -8px rgba(0, 0, 0, 0.06);
+    --wm-input-shadow: 0 0 0 4px rgba(16, 163, 127, 0.10);
+    --wm-radius-sm: 10px;
+    --wm-radius-md: 14px;
+    --wm-radius-lg: 20px;
+    --wm-radius-xl: 24px;
+    --wm-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0;
+    overflow: hidden !important;
+    background: var(--wm-bg-right);
+    color: var(--wm-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    overscroll-behavior: none;
+}
+
+.login-pf,
+.login-pf body,
+.login-pf-page,
+#kc-container,
+#kc-content,
+#kc-content-wrapper,
+.card-pf {
+    width: 100% !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.login-pf body {
+    background: var(--wm-bg-right);
+}
+
+#kc-header {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#kc-page-title,
+.kc-feedback-text,
+.alert,
+.alert-error {
+    display: none !important;
+}
+
+/* ============  SVG 尺寸重置（对抗 Keycloak 父主题全局 svg{width:100%} 污染） ============ */
+.workmate-shell svg {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    box-sizing: content-box;
+}
+.workmate-shell svg:not([width]),
+.workmate-shell svg:not([height]) {
+    width: 1em;
+    height: 1em;
+}
+
+/* ============ Shell & Layout ============ */
+.workmate-shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* ============ Left Brand Panel ============ */
+.workmate-brand-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    min-width: 0;
+    height: 100vh;
+    max-height: 100vh;
+    background:
+        radial-gradient(ellipse 80% 50% at 15% 10%, rgba(209, 250, 229, 0.55), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 85% 85%, rgba(219, 234, 254, 0.5), transparent 55%),
+        radial-gradient(ellipse 50% 30% at 50% 50%, rgba(236, 253, 245, 0.4), transparent 60%),
+        linear-gradient(160deg, #F6FBF8 0%, #F0F9F4 45%, #EFF6FF 100%);
+}
+
+.workmate-brand-panel::after {
+    content: "";
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(16, 163, 127, 0.07) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Brand Bar */
+.workmate-brand {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 6px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--wm-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.workmate-brand-logo {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px;
+    min-height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(16, 163, 127, 0.18));
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.workmate-brand-logo svg {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px;
+    min-height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    display: block !important;
+}
+
+.workmate-brand-text {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.workmate-brand-name {
+    color: var(--wm-text-primary);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.workmate-brand-version {
+    color: var(--wm-text-tertiary);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 2px 6px;
+    background: rgba(16, 163, 127, 0.08);
+    border-radius: 6px;
+}
+
+/* Hero Icon */
+.workmate-hero {
+    position: relative;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 96px 32px 16px;
+    z-index: 1;
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.workmate-hero-icon {
+    width: 100%;
+    max-width: 280px;
+    height: 280px;
+    max-height: 280px;
+    min-width: 160px;
+    min-height: 160px;
+    flex-shrink: 0;
+    animation: floatY 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 40px rgba(16, 163, 127, 0.12));
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.workmate-hero-icon svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    min-width: 160px;
+    min-height: 160px;
+    display: block !important;
+    object-fit: contain;
+}
+
+@keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Hero Copy */
+.workmate-hero-copy {
+    position: relative;
+    z-index: 2;
+    margin: 8px 48px 40px;
+    padding: 0 16px;
+    color: var(--wm-text-primary);
+    max-width: 560px;
+    box-sizing: border-box;
+}
+
+.workmate-hero-copy-title {
+    margin: 0 0 10px;
+    font-size: 30px;
+    line-height: 1.18;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--wm-text-primary);
+    background: linear-gradient(135deg, #111827 0%, #10A37F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.workmate-hero-copy-subtitle-en {
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--wm-text-secondary);
+    letter-spacing: 0.01em;
+    font-style: italic;
+    font-family: "SF Pro Text", "Georgia", serif;
+}
+
+.workmate-hero-copy-text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 400;
+    color: var(--wm-text-secondary);
+    letter-spacing: 0.01em;
+}
+
+/* ============ Right Auth Panel ============ */
+.workmate-auth-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    min-height: 0;
+    min-width: 0;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse 50% 30% at 100% 0%, rgba(219, 234, 254, 0.35), transparent 60%),
+        radial-gradient(ellipse 40% 25% at 0% 100%, rgba(209, 250, 229, 0.3), transparent 60%),
+        var(--wm-bg-right);
+}
+
+.workmate-auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    border-radius: var(--wm-radius-xl);
+    box-shadow: var(--wm-card-shadow);
+    padding: 44px 40px 36px;
+    animation: fadeInUp 0.6s var(--wm-ease) both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.workmate-auth-inner {
+    width: 100%;
+}
+
+.workmate-title {
+    margin: 0 0 6px;
+    color: var(--wm-text-primary);
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.workmate-subtitle {
+    margin: 0 0 32px;
+    color: var(--wm-text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+/* ============ Form ============ */
+.workmate-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workmate-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workmate-field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.workmate-field-label {
+    color: var(--wm-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.01em;
+}
+
+.workmate-field input {
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--wm-border);
+    border-radius: var(--wm-radius-md);
+    background: #FFFFFF;
+    padding: 0 16px;
+    color: var(--wm-text-primary);
+    font-size: 14.5px;
+    line-height: 48px;
+    font-weight: 400;
+    outline: none;
+    transition: border-color 0.2s var(--wm-ease),
+                box-shadow 0.2s var(--wm-ease),
+                background-color 0.2s var(--wm-ease);
+}
+
+.workmate-field input::placeholder {
+    color: var(--wm-text-tertiary);
+    font-weight: 400;
+}
+
+.workmate-field input:hover {
+    border-color: #D1D5DB;
+}
+
+.workmate-field input:focus {
+    border-color: var(--wm-border-focus);
+    box-shadow: var(--wm-input-shadow);
+    background: #FFFFFF;
+}
+
+.workmate-field input:user-invalid {
+    border-color: #FCA5A5;
+}
+
+/* Forgot inline */
+.workmate-forgot-inline {
+    color: var(--wm-primary);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s var(--wm-ease);
+    line-height: 1;
+}
+
+.workmate-forgot-inline:hover {
+    color: var(--wm-primary-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ============ Error ============ */
+.workmate-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid #FECACA;
+    border-radius: var(--wm-radius-sm);
+    background: var(--wm-error-bg);
+    color: #B91C1C;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 400;
+    animation: shakeX 0.4s var(--wm-ease);
+}
+
+@keyframes shakeX {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.workmate-error-icon {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    flex-shrink: 0;
+    margin-top: -1px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.workmate-error-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    display: block !important;
+}
+
+.workmate-error span {
+    flex: 1;
+}
+
+/* ============ Checkbox ============ */
+.workmate-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -2px;
+    cursor: pointer;
+    user-select: none;
+    width: fit-content;
+}
+
+.workmate-check input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.workmate-check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 5px;
+    background: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s var(--wm-ease);
+    position: relative;
+}
+
+.workmate-check-box::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(-45deg) scale(0);
+    top: 4px;
+    left: 2.5px;
+    transition: transform 0.15s var(--wm-ease);
+}
+
+.workmate-check:hover .workmate-check-box {
+    border-color: var(--wm-primary);
+}
+
+.workmate-check input:checked + .workmate-check-box {
+    border-color: var(--wm-primary);
+    background: var(--wm-primary);
+}
+
+.workmate-check input:checked + .workmate-check-box::after {
+    transform: rotate(-45deg) scale(1);
+}
+
+.workmate-check input:focus-visible + .workmate-check-box {
+    box-shadow: var(--wm-input-shadow);
+}
+
+.workmate-check-text {
+    color: var(--wm-text-secondary);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* ============ Submit Button ============ */
+.workmate-submit {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border: 0;
+    border-radius: var(--wm-radius-md);
+    background: linear-gradient(135deg, var(--wm-primary) 0%, #0EC49A 100%);
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s var(--wm-ease);
+    box-shadow: 0 4px 14px rgba(16, 163, 127, 0.25),
+                0 1px 3px rgba(16, 163, 127, 0.15);
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.workmate-submit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.2s var(--wm-ease);
+}
+
+.workmate-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(16, 163, 127, 0.30),
+                0 2px 6px rgba(16, 163, 127, 0.18);
+    background: linear-gradient(135deg, var(--wm-primary-hover) 0%, #0DB58E 100%);
+}
+
+.workmate-submit:hover::before {
+    opacity: 1;
+}
+
+.workmate-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(16, 163, 127, 0.25);
+}
+
+.workmate-submit:disabled {
+    cursor: wait;
+    opacity: 0.72;
+    transform: none;
+    box-shadow: 0 4px 14px rgba(16, 163, 127, 0.18);
+}
+
+.workmate-submit-text {
+    position: relative;
+    z-index: 1;
+}
+
+.workmate-submit-arrow {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: transform 0.2s var(--wm-ease);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.workmate-submit-arrow svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    display: block !important;
+}
+
+.workmate-submit:hover .workmate-submit-arrow {
+    transform: translateX(2px);
+}
+
+/* ============ Forgot Password (below button style) ============ */
+.workmate-forgot {
+    width: fit-content;
+    margin: 4px auto 0;
+    color: var(--wm-text-tertiary);
+    font-size: 13px;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: color 0.15s var(--wm-ease);
+}
+
+.workmate-forgot:hover {
+    color: var(--wm-primary);
+}
+
+/* ============ Register ============ */
+.workmate-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--wm-border);
+    color: var(--wm-text-secondary);
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.workmate-register span {
+    color: var(--wm-text-tertiary);
+}
+
+.workmate-register a {
+    color: var(--wm-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s var(--wm-ease);
+}
+
+.workmate-register a:hover {
+    color: var(--wm-primary-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 960px) {
+    .workmate-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) minmax(0, 1.1fr);
+        overflow: hidden !important;
+        position: relative;
+        width: 100%;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        min-height: 0 !important;
+    }
+
+    .workmate-brand-panel {
+        min-height: 0;
+        height: 100%;
+        max-height: 100%;
+        padding-bottom: 12px;
+    }
+
+    .workmate-brand-panel::after {
+        display: none;
+    }
+
+    .workmate-brand {
+        top: 20px;
+        left: 20px;
+    }
+
+    .workmate-hero {
+        padding: 64px 24px 4px;
+    }
+
+    .workmate-hero-icon {
+        width: 100% !important;
+        max-width: 160px !important;
+        height: 160px !important;
+        max-height: 160px !important;
+        min-width: 120px;
+        min-height: 120px;
+    }
+
+    .workmate-hero-copy {
+        margin: 4px 24px 20px;
+        padding: 0;
+        text-align: center;
+        max-width: none;
+    }
+
+    .workmate-hero-copy-title {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .workmate-hero-copy-subtitle-en {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .workmate-hero-copy-text {
+        font-size: 12.5px;
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    .workmate-auth-panel {
+        min-height: 0;
+        height: 100%;
+        max-height: 100%;
+        padding: 0 20px 24px;
+        margin-top: 0;
+        position: relative;
+        z-index: 3;
+    }
+
+    .workmate-auth-card {
+        padding: 24px 22px 22px;
+    }
+}
+
+@media (max-width: 560px) {
+    .workmate-brand {
+        top: 12px;
+        left: 12px;
+        padding: 4px 10px 4px 4px;
+        gap: 6px;
+    }
+
+    .workmate-brand-logo {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 28px;
+        max-height: 28px;
+    }
+
+    .workmate-brand-logo svg {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 28px;
+        max-height: 28px;
+    }
+
+    .workmate-brand-name {
+        font-size: 13px;
+    }
+
+    .workmate-brand-version {
+        display: none;
+    }
+
+    .workmate-hero {
+        padding: 52px 16px 0;
+    }
+
+    .workmate-hero-icon {
+        width: 100% !important;
+        max-width: 110px !important;
+        height: 110px !important;
+        max-height: 110px !important;
+        min-width: 96px;
+        min-height: 96px;
+    }
+
+    .workmate-hero-copy {
+        margin: 2px 12px 10px;
+        padding: 0;
+    }
+
+    .workmate-hero-copy-title {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .workmate-hero-copy-subtitle-en {
+        font-size: 11px;
+        margin-bottom: 6px;
+    }
+
+    .workmate-hero-copy-text {
+        font-size: 11.5px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .workmate-auth-panel {
+        padding: 0 14px 16px;
+        margin-top: 0;
+    }
+
+    .workmate-auth-card {
+        padding: 20px 18px 18px;
+        border-radius: var(--wm-radius-lg);
+    }
+
+    .workmate-title {
+        font-size: 19px;
+        margin-bottom: 4px;
+    }
+
+    .workmate-subtitle {
+        margin-bottom: 16px;
+        font-size: 12px;
+    }
+
+    .workmate-form {
+        gap: 14px;
+    }
+
+    .workmate-field {
+        gap: 6px;
+    }
+
+    .workmate-field input {
+        height: 42px;
+        line-height: 42px;
+        padding: 0 12px;
+        font-size: 13.5px;
+    }
+
+    .workmate-submit {
+        height: 44px;
+        font-size: 14px;
+        margin-top: 2px;
+    }
+
+    .workmate-check {
+        margin-top: 0;
+    }
+
+    .workmate-register {
+        margin-top: 16px;
+        padding-top: 14px;
+        font-size: 12px;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+}
