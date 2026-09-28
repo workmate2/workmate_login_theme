@@ -15,7 +15,7 @@
                     </div>
                     <div class="workmate-brand-text">
                         <span class="workmate-brand-name">WorkMate 岗伴</span>
-                        <span class="workmate-brand-version">v0.1.0</span>
+                        <span class="workmate-brand-version">v0.5.0</span>
                     </div>
                 </div>
 
